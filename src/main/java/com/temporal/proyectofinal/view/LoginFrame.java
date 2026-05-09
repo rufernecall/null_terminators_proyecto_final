@@ -85,7 +85,7 @@ public class LoginFrame extends JFrame {
         lblLogo.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         lblLogo.setForeground(new java.awt.Color(255, 255, 255));
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLogo.setText("TEMPORAL");
+        lblLogo.setText("NULL TERMINATORS");
         mainPanel.add(lblLogo);
         lblLogo.setBounds(0, 70, 400, 40);
 

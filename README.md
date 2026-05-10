@@ -1,4 +1,4 @@
-# ERP & POS System - Mi Proyecto Final
+# ERP & POS System - Nuesto Proyecto Final
 
 Este es el resultado de un trabajo enfocado en modernizar lo que normalmente vemos en sistemas de escritorio. No es solo un POS basico; la idea fue llevar la experiencia de un ERP real a Java Swing, conectandolo con una base de datos en la nube y cuidando detalles de rendimiento que usualmente se pasan por alto.
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.temporal</groupId>
+    <groupId>com.null_terminators</groupId>
     <artifactId>ProyectoFinal</artifactId>
     <version>0.1</version>
     <packaging>jar</packaging>
@@ -9,7 +9,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>25</maven.compiler.release>
         <java.version>25</java.version>
-        <exec.mainClass>com.temporal.proyectofinal.ProyectoFinal</exec.mainClass>
+        <exec.mainClass>com.null_terminators.proyectofinal.ProyectoFinal</exec.mainClass>
     </properties>
     
     <dependencies>

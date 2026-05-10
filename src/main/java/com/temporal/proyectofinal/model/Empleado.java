@@ -9,6 +9,7 @@ public class Empleado {
     private String nombre;
     private String cargo;
     private String telefono;
+    private String dni;
     private double sueldo;
 
     public Empleado() {}
@@ -24,6 +25,9 @@ public class Empleado {
 
     public String getTelefono() { return telefono; }
     public void setTelefono(String telefono) { this.telefono = telefono; }
+
+    public String getDni() { return dni; }
+    public void setDni(String dni) { this.dni = dni; }
 
     public double getSueldo() { return sueldo; }
     public void setSueldo(double sueldo) { this.sueldo = sueldo; }

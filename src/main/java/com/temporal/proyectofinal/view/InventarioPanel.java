@@ -1,6 +1,6 @@
 package com.temporal.proyectofinal.view;
 
-import com.temporal.proyectofinal.dao.ProductoDAO;
+import com.temporal.proyectofinal.controller.InventarioController;
 import com.temporal.proyectofinal.model.Producto;
 import com.temporal.proyectofinal.util.DataStore;
 import java.awt.*;
@@ -12,19 +12,20 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * Inventario de alto nivel con KPIs y alertas de stock
+ * 
  * @author rufernecall
  */
 public class InventarioPanel extends javax.swing.JPanel {
 
-    private ProductoDAO pDAO;
+    private InventarioController controller;
     private DefaultTableModel modelo;
     private JLabel lblTotalModelos, lblUnidadesStock, lblValorTotal;
 
     public InventarioPanel() {
         initComponents();
-        pDAO = new ProductoDAO();
+        controller = new InventarioController();
         modelo = (DefaultTableModel) tablaInventario.getModel();
-        
+
         initCustomKpis();
         configurarTabla();
         listarProductos("");
@@ -43,10 +44,10 @@ public class InventarioPanel extends javax.swing.JPanel {
 
     private void cargarKpis() {
         new Thread(() -> {
-            int modelos = pDAO.getTotalProductos();
-            int stock = pDAO.getTotalStockGlobal();
-            double valor = pDAO.getValorInventarioTotal();
-            
+            int modelos = controller.getTotalProductos();
+            int stock = controller.getTotalStockGlobal();
+            double valor = controller.getValorInventarioTotal();
+
             SwingUtilities.invokeLater(() -> {
                 lblTotalModelos.setText(String.valueOf(modelos));
                 lblUnidadesStock.setText(String.valueOf(stock));
@@ -59,15 +60,18 @@ public class InventarioPanel extends javax.swing.JPanel {
         // Renderer para alertar cuando el stock es bajo
         tablaInventario.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                    boolean hasFocus, int row, int column) {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 int stock = (int) value;
                 if (stock < 5) {
                     c.setForeground(new Color(255, 100, 100)); // Rojo alerta
-                    if (!isSelected) c.setBackground(new Color(60, 30, 30));
+                    if (!isSelected)
+                        c.setBackground(new Color(60, 30, 30));
                 } else {
                     c.setForeground(Color.WHITE);
-                    if (!isSelected) c.setBackground(new Color(30, 30, 35));
+                    if (!isSelected)
+                        c.setBackground(new Color(30, 30, 35));
                 }
                 return c;
             }
@@ -79,11 +83,11 @@ public class InventarioPanel extends javax.swing.JPanel {
         List<Producto> lista = DataStore.getInstance().getProductos();
         for (Producto p : lista) {
             if (p.getNombre().toLowerCase().contains(filtro.toLowerCase())) {
-                modelo.addRow(new Object[]{
-                    p.getId(),
-                    p.getNombre(),
-                    String.format("%.2f", p.getPrecio()),
-                    p.getStock()
+                modelo.addRow(new Object[] {
+                        p.getId(),
+                        p.getNombre(),
+                        String.format("%.2f", p.getPrecio()),
+                        p.getStock()
                 });
             }
         }
@@ -116,7 +120,8 @@ public class InventarioPanel extends javax.swing.JPanel {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         lblTitulo = new javax.swing.JLabel();
@@ -175,19 +180,18 @@ public class InventarioPanel extends javax.swing.JPanel {
         });
 
         tablaInventario.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][] {
 
-            },
-            new String [] {
-                "ID", "Nombre", "Precio", "Stock"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                },
+                new String[] {
+                        "ID", "Nombre", "Precio", "Stock"
+                }) {
+            boolean[] canEdit = new boolean[] {
+                    false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         tablaInventario.setRowHeight(35);
@@ -196,66 +200,76 @@ public class InventarioPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblTitulo)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(pnlKpis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE))
-                .addGap(30, 30, 30))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lblTitulo)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addComponent(pnlKpis, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 280,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 110,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(10, 10, 10)
+                                                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 110,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(10, 10, 10)
+                                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 840,
+                                                Short.MAX_VALUE))
+                                .addGap(30, 30, 30)));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(lblTitulo)
-                .addGap(25, 25, 25)
-                .addComponent(pnlKpis, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
-                .addGap(30, 30, 30))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(lblTitulo)
+                                .addGap(25, 25, 25)
+                                .addComponent(pnlKpis, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(25, 25, 25)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 35,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 35,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 35,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(20, 20, 20)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+                                .addGap(30, 30, 30)));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtBuscarKeyReleased
         listarProductos(txtBuscar.getText());
-    }//GEN-LAST:event_txtBuscarKeyReleased
+    }// GEN-LAST:event_txtBuscarKeyReleased
 
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        ProductoForm form = new ProductoForm(null, null);
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnNuevoActionPerformed
+        ProductoForm form = new ProductoForm(null, true, new Producto());
         form.setVisible(true);
         if (form.isGuardado()) {
             listarProductos("");
             cargarKpis();
         }
-    }//GEN-LAST:event_btnNuevoActionPerformed
+    }// GEN-LAST:event_btnNuevoActionPerformed
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEditarActionPerformed
         int row = tablaInventario.getSelectedRow();
         if (row != -1) {
             Long id = (Long) tablaInventario.getValueAt(row, 0);
             Producto p = DataStore.getInstance().getProductos().stream()
-                .filter(prod -> prod.getId().equals(id)).findFirst().orElse(null);
-            
+                    .filter(prod -> prod.getId().equals(id)).findFirst().orElse(null);
+
             if (p != null) {
-                ProductoForm form = new ProductoForm(null, p);
+                ProductoForm form = new ProductoForm(null, true, p);
                 form.setVisible(true);
                 if (form.isGuardado()) {
                     listarProductos("");
@@ -263,21 +277,21 @@ public class InventarioPanel extends javax.swing.JPanel {
                 }
             }
         }
-    }//GEN-LAST:event_btnEditarActionPerformed
+    }// GEN-LAST:event_btnEditarActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEliminarActionPerformed
         int row = tablaInventario.getSelectedRow();
         if (row != -1) {
             if (JOptionPane.showConfirmDialog(this, "¿Eliminar producto?") == 0) {
                 Long id = (Long) tablaInventario.getValueAt(row, 0);
-                if (pDAO.eliminar(id)) {
+                if (controller.eliminarProducto(id)) {
                     DataStore.getInstance().refrescarProductos();
                     listarProductos("");
                     cargarKpis();
                 }
             }
         }
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    }// GEN-LAST:event_btnEliminarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;

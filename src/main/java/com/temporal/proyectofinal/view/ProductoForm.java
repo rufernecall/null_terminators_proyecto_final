@@ -1,6 +1,6 @@
 package com.temporal.proyectofinal.view;
 
-import com.temporal.proyectofinal.dao.ProductoDAO;
+import com.temporal.proyectofinal.controller.InventarioController;
 import com.temporal.proyectofinal.model.Categoria;
 import com.temporal.proyectofinal.model.Producto;
 import com.temporal.proyectofinal.model.Proveedor;
@@ -9,6 +9,7 @@ import com.temporal.proyectofinal.util.SupabaseStorageUtil;
 import java.awt.Image;
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -17,17 +18,19 @@ import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * Formulario de Productos con soporte para subida de imagenes a la nube
+ * Formulario de Productos vinculado al Controlador
  * @author rufernecall
  */
 public class ProductoForm extends javax.swing.JDialog {
 
-    private Producto producto;
+    private InventarioController controller;
+    private Producto productoActual;
     private boolean guardado = false;
 
-    public ProductoForm(java.awt.Frame parent, Producto p) {
-        super(parent, true);
-        this.producto = p;
+    public ProductoForm(java.awt.Frame parent, boolean modal, Producto p) {
+        super(parent, modal);
+        this.controller = new InventarioController();
+        this.productoActual = p;
         initComponents();
         cargarComboData();
         cargarDatos();
@@ -39,24 +42,6 @@ public class ProductoForm extends javax.swing.JDialog {
         DataStore.getInstance().getCategorias().forEach(cbCategoria::addItem);
         cbProveedor.removeAllItems();
         DataStore.getInstance().getProveedores().forEach(cbProveedor::addItem);
-    }
-
-    private void cargarDatos() {
-        if (producto != null) {
-            txtNombre.setText(producto.getNombre());
-            txtPrecio.setText(String.valueOf(producto.getPrecio()));
-            txtStock.setText(String.valueOf(producto.getStock()));
-            txtImagen.setText(producto.getImagenUrl());
-            actualizarPreview();
-            
-            if (producto.getCategoria() != null) {
-                for (int i = 0; i < cbCategoria.getItemCount(); i++) {
-                    if (cbCategoria.getItemAt(i).getId().equals(producto.getCategoria().getId())) {
-                        cbCategoria.setSelectedIndex(i); break;
-                    }
-                }
-            }
-        }
     }
 
     private void actualizarPreview() {
@@ -264,18 +249,35 @@ public class ProductoForm extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnSubirActionPerformed
 
+    private void cargarDatos() {
+        if (productoActual != null) {
+            txtNombre.setText(productoActual.getNombre());
+            txtPrecio.setText(String.valueOf(productoActual.getPrecio()));
+            txtStock.setText(String.valueOf(productoActual.getStock()));
+            txtImagen.setText(productoActual.getImagenUrl());
+            actualizarPreview();
+            
+            if (productoActual.getCategoria() != null) {
+                for (int i = 0; i < cbCategoria.getItemCount(); i++) {
+                    if (cbCategoria.getItemAt(i).getId().equals(productoActual.getCategoria().getId())) {
+                        cbCategoria.setSelectedIndex(i); break;
+                    }
+                }
+            }
+        }
+    }
+
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
-            if (producto == null) producto = new Producto();
-            producto.setNombre(txtNombre.getText());
-            producto.setPrecio(Double.parseDouble(txtPrecio.getText()));
-            producto.setStock(Integer.parseInt(txtStock.getText()));
-            producto.setCategoria((Categoria) cbCategoria.getSelectedItem());
-            producto.setProveedor((Proveedor) cbProveedor.getSelectedItem());
-            producto.setImagenUrl(txtImagen.getText());
+            if (productoActual == null) productoActual = new Producto();
+            productoActual.setNombre(txtNombre.getText());
+            productoActual.setPrecio(Double.parseDouble(txtPrecio.getText()));
+            productoActual.setStock(Integer.parseInt(txtStock.getText()));
+            productoActual.setCategoria((Categoria) cbCategoria.getSelectedItem());
+            productoActual.setProveedor((Proveedor) cbProveedor.getSelectedItem());
+            productoActual.setImagenUrl(txtImagen.getText());
 
-            ProductoDAO dao = new ProductoDAO();
-            if ((producto.getId() == null) ? dao.insertar(producto) : dao.actualizar(producto)) {
+            if (controller.guardarProducto(productoActual)) {
                 DataStore.getInstance().refrescarProductos();
                 guardado = true;
                 dispose();

@@ -1,4 +1,8 @@
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/ProyectoFinal.java
+/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/controller/ComercialController.java
+/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/controller/InventarioController.java
+/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/controller/ReporteController.java
+/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/controller/UsuarioController.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/controller/VentaController.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/dao/CategoriaDAO.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/dao/ClienteDAO.java
@@ -19,7 +23,10 @@
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/model/Producto.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/model/Proveedor.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/model/Usuario.java
+/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/service/ComercialService.java
+/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/service/InventarioService.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/service/Sincronizador.java
+/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/service/UsuarioService.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/util/DataStore.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/util/ReporteUtil.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/temporal/proyectofinal/util/SupabaseStorageUtil.java

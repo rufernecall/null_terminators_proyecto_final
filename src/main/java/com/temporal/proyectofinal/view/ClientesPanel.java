@@ -1,24 +1,24 @@
 package com.temporal.proyectofinal.view;
 
-import com.temporal.proyectofinal.dao.ClienteDAO;
+import com.temporal.proyectofinal.controller.ComercialController;
 import com.temporal.proyectofinal.model.Cliente;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Panel de Clientes con conexion directa a Supabase y CRUD funcional
+ * Panel de Gestion de Clientes vinculado al Controlador Comercial
  * @author rufernecall
  */
 public class ClientesPanel extends javax.swing.JPanel {
 
-    private ClienteDAO cDAO;
+    private ComercialController controller;
     private DefaultTableModel modelo;
     private List<Cliente> listaActual;
 
     public ClientesPanel() {
         initComponents();
-        cDAO = new ClienteDAO();
+        controller = new ComercialController();
         modelo = (DefaultTableModel) tablaClientes.getModel();
         listarClientes("");
     }
@@ -26,7 +26,7 @@ public class ClientesPanel extends javax.swing.JPanel {
     private void listarClientes(String filtro) {
         try {
             modelo.setRowCount(0);
-            listaActual = cDAO.listar(); 
+            listaActual = controller.listarClientes(); 
             for (Cliente c : listaActual) {
                 if (c.getNombre().toLowerCase().contains(filtro.toLowerCase()) || 
                     c.getDocumentoIdentidad().toLowerCase().contains(filtro.toLowerCase())) {
@@ -160,7 +160,7 @@ public class ClientesPanel extends javax.swing.JPanel {
     }
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {
-        ClienteForm form = new ClienteForm(null, null);
+        ClienteForm form = new ClienteForm(null, true, null);
         form.setVisible(true);
         if (form.isGuardado()) listarClientes("");
     }
@@ -171,7 +171,7 @@ public class ClientesPanel extends javax.swing.JPanel {
             Long id = (Long) tablaClientes.getValueAt(row, 0);
             Cliente c = listaActual.stream().filter(cl -> cl.getId().equals(id)).findFirst().orElse(null);
             if (c != null) {
-                ClienteForm form = new ClienteForm(null, c);
+                ClienteForm form = new ClienteForm(null, true, c);
                 form.setVisible(true);
                 if (form.isGuardado()) listarClientes("");
             }
@@ -183,9 +183,11 @@ public class ClientesPanel extends javax.swing.JPanel {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {
         int row = tablaClientes.getSelectedRow();
         if (row != -1) {
-            if (JOptionPane.showConfirmDialog(this, "¿Eliminar cliente?") == JOptionPane.YES_OPTION) {
-                Long id = (Long) tablaClientes.getValueAt(row, 0);
-                if (cDAO.eliminar(id)) listarClientes("");
+            Long id = (Long) tablaClientes.getValueAt(row, 0);
+            if (JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) {
+                if (controller.eliminarCliente(id)) {
+                    listarClientes("");
+                }
             }
         }
     }

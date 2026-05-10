@@ -1,11 +1,10 @@
 package com.temporal.proyectofinal.view;
 
-import com.temporal.proyectofinal.dao.DatabaseConnection;
-import com.temporal.proyectofinal.dao.VentasDAO;
+import com.temporal.proyectofinal.controller.ReporteController;
 import com.temporal.proyectofinal.model.OrdenVenta;
 import java.awt.*;
-import java.sql.*;
 import java.util.List;
+import java.util.Map;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -17,11 +16,13 @@ import java.time.format.DateTimeFormatter;
  */
 public class DashboardPanel extends javax.swing.JPanel {
 
+    private ReporteController controller;
     private JLabel lblVentasHoy, lblTotalProductos, lblTotalClientes, lblStockCritico;
     private DefaultTableModel modelo;
 
     public DashboardPanel() {
         initComponents();
+        controller = new ReporteController();
         modelo = (DefaultTableModel) tablaRecientes.getModel();
         initCustomCards();
         cargarEstadisticas();
@@ -43,28 +44,22 @@ public class DashboardPanel extends javax.swing.JPanel {
     private void cargarEstadisticas() {
         new Thread(() -> {
             try {
-                Connection con = DatabaseConnection.getConnection();
-                String sqlSP = "SELECT * FROM get_dashboard_stats()";
-                try (PreparedStatement ps = con.prepareStatement(sqlSP);
-                     ResultSet rs = ps.executeQuery()) {
-                    
-                    if (rs.next()) {
-                        double ventas = rs.getDouble("ventas_hoy");
-                        long stock = rs.getLong("stock_total");
-                        long clientes = rs.getLong("clientes_total");
-                        long critico = rs.getLong("stock_critico");
+                Map<String, Object> stats = controller.getEstadisticasGenerales();
+                if (!stats.isEmpty()) {
+                    double ventas = (double) stats.get("ventasHoy");
+                    long stock = (long) stats.get("stockTotal");
+                    long clientes = (long) stats.get("clientesTotal");
+                    long critico = (long) stats.get("stockCritico");
 
-                        SwingUtilities.invokeLater(() -> {
-                            lblVentasHoy.setText("S/ " + String.format("%.2f", ventas));
-                            lblTotalProductos.setText(String.valueOf(stock));
-                            lblTotalClientes.setText(String.valueOf(clientes));
-                            lblStockCritico.setText(critico + " Items");
-                        });
-                    }
+                    SwingUtilities.invokeLater(() -> {
+                        lblVentasHoy.setText("S/ " + String.format("%.2f", ventas));
+                        lblTotalProductos.setText(String.valueOf(stock));
+                        lblTotalClientes.setText(String.valueOf(clientes));
+                        lblStockCritico.setText(critico + " Items");
+                    });
                 }
 
-                VentasDAO vDAO = new VentasDAO();
-                List<OrdenVenta> recientes = vDAO.getUltimasVentas(8);
+                List<OrdenVenta> recientes = controller.getUltimasVentas(8);
                 SwingUtilities.invokeLater(() -> {
                     modelo.setRowCount(0);
                     DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -78,7 +73,7 @@ public class DashboardPanel extends javax.swing.JPanel {
                 });
 
             } catch (Exception e) {
-                System.err.println("error dashboard sp: " + e.getMessage());
+                System.err.println("error dashboard: " + e.getMessage());
             }
         }).start();
     }

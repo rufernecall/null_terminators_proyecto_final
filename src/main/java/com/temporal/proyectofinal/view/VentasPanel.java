@@ -126,7 +126,7 @@ public class VentasPanel extends javax.swing.JPanel {
         pnlGridProductos.removeAll();
         List<Producto> lista = DataStore.getInstance().getProductos();
         List<Producto> filtrados = lista.stream()
-                .filter(p -> p.getNombre().toLowerCase().contains(filtro.toLowerCase()))
+                .filter(p -> p.getNombre().replace(" Buscar por nombre...","").toLowerCase().contains(filtro.toLowerCase()))
                 .filter(p -> categoriaSeleccionada == null || (p.getCategoria() != null && p.getCategoria().getId().equals(categoriaSeleccionada)))
                 .collect(Collectors.toList());
         

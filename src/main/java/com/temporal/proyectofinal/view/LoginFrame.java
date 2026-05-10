@@ -1,6 +1,6 @@
 package com.temporal.proyectofinal.view;
 
-import com.temporal.proyectofinal.dao.UsuarioDAO;
+import com.temporal.proyectofinal.controller.UsuarioController;
 import com.temporal.proyectofinal.model.Usuario;
 import java.awt.*;
 import java.awt.event.*;
@@ -13,10 +13,10 @@ import javax.swing.*;
 public class LoginFrame extends JFrame {
 
     private int xMouse, yMouse;
-    private UsuarioDAO usuarioDAO;
+    private UsuarioController controller;
 
     public LoginFrame() {
-        this.usuarioDAO = new UsuarioDAO();
+        this.controller = new UsuarioController();
         initComponents();
         txtUser.putClientProperty("JTextField.placeholderText", "Ingrese su usuario...");
         txtPass.putClientProperty("JTextField.placeholderText", "••••••••");
@@ -176,10 +176,10 @@ public class LoginFrame extends JFrame {
             @Override
             protected MainFrame doInBackground() throws Exception {
                 publish("Chequeando credenciales...");
-                Usuario u = usuarioDAO.login(user, pass);
+                Usuario u = controller.login(user, pass);
                 if (u == null) return null;
 
-                publish("Cargando el almacen...");
+                publish("Cargando el sistema...");
                 return new MainFrame(u, msg -> publish(msg));
             }
 

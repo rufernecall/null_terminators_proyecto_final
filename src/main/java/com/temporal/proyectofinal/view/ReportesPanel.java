@@ -1,29 +1,30 @@
 package com.temporal.proyectofinal.view;
 
-import com.temporal.proyectofinal.dao.VentasDAO;
+import com.temporal.proyectofinal.controller.ReporteController;
 import com.temporal.proyectofinal.model.OrdenVenta;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Historial de Ventas (Sincronizado con Supabase)
+ * Historial de Ventas vinculado al Controlador de Reportes
  * @author rufernecall
  */
 public class ReportesPanel extends javax.swing.JPanel {
 
+    private ReporteController controller;
     private DefaultTableModel modelo;
 
     public ReportesPanel() {
         initComponents();
+        controller = new ReporteController();
         modelo = (DefaultTableModel) tablaVentas.getModel();
         listarVentas();
     }
-    
+
     private void listarVentas() {
         try {
             modelo.setRowCount(0);
-            VentasDAO vDAO = new VentasDAO();
-            List<OrdenVenta> lista = vDAO.listar();
+            List<OrdenVenta> lista = controller.listarVentas();
             for (OrdenVenta v : lista) {
                 modelo.addRow(new Object[]{
                     v.getId(),

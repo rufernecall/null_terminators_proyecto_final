@@ -1,23 +1,23 @@
 package com.temporal.proyectofinal.view;
 
-import com.temporal.proyectofinal.dao.UsuarioDAO;
+import com.temporal.proyectofinal.controller.UsuarioController;
 import com.temporal.proyectofinal.model.Usuario;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Panel de Usuarios vinculado al Formulario de Creacion compatible con NetBeans
+ * Panel de Usuarios vinculado al Controlador compatible con NetBeans
  * @author rufernecall
  */
 public class UsuariosPanel extends javax.swing.JPanel {
 
-    private UsuarioDAO uDAO;
+    private UsuarioController controller;
     private DefaultTableModel modelo;
 
     public UsuariosPanel() {
         initComponents();
-        uDAO = new UsuarioDAO();
+        controller = new UsuarioController();
         modelo = (DefaultTableModel) tablaUsuarios.getModel();
         listar();
         configurarEventos();
@@ -37,7 +37,7 @@ public class UsuariosPanel extends javax.swing.JPanel {
     private void listar() {
         try {
             modelo.setRowCount(0);
-            List<Usuario> lista = uDAO.listar();
+            List<Usuario> lista = controller.listarUsuarios();
             for (Usuario u : lista) {
                 modelo.addRow(new Object[]{
                     u.getId(),
@@ -56,7 +56,7 @@ public class UsuariosPanel extends javax.swing.JPanel {
         int row = tablaUsuarios.getSelectedRow();
         if (row != -1) {
             Long id = (Long) tablaUsuarios.getValueAt(row, 0);
-            Usuario u = uDAO.listar().stream().filter(x -> x.getId().equals(id)).findFirst().orElse(null);
+            Usuario u = controller.listarUsuarios().stream().filter(x -> x.getId().equals(id)).findFirst().orElse(null);
             if (u != null) {
                 UsuarioForm form = new UsuarioForm(null, true, u);
                 form.setVisible(true);
@@ -157,7 +157,7 @@ public class UsuariosPanel extends javax.swing.JPanel {
         if (row != -1) {
             Long id = (Long) tablaUsuarios.getValueAt(row, 0);
             if (JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) {
-                if (uDAO.eliminar(id)) listar();
+                if (controller.eliminarUsuario(id)) listar();
             }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed

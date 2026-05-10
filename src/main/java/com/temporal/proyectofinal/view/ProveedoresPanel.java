@@ -1,24 +1,24 @@
 package com.temporal.proyectofinal.view;
 
-import com.temporal.proyectofinal.dao.ProveedorDAO;
+import com.temporal.proyectofinal.controller.ComercialController;
 import com.temporal.proyectofinal.model.Proveedor;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Panel de Proveedores con CRUD funcional directo a Supabase
+ * Panel de Gestion de Proveedores vinculado al Controlador Comercial
  * @author rufernecall
  */
 public class ProveedoresPanel extends javax.swing.JPanel {
 
-    private ProveedorDAO prDAO;
+    private ComercialController controller;
     private DefaultTableModel modelo;
     private List<Proveedor> listaActual;
 
     public ProveedoresPanel() {
         initComponents();
-        prDAO = new ProveedorDAO();
+        controller = new ComercialController();
         modelo = (DefaultTableModel) tablaProveedores.getModel();
         listar();
     }
@@ -26,7 +26,7 @@ public class ProveedoresPanel extends javax.swing.JPanel {
     private void listar() {
         try {
             modelo.setRowCount(0);
-            listaActual = prDAO.listar();
+            listaActual = controller.listarProveedores();
             for (Proveedor p : listaActual) {
                 modelo.addRow(new Object[]{
                     p.getId(),
@@ -143,7 +143,7 @@ public class ProveedoresPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {
-        ProveedorForm form = new ProveedorForm(null, null);
+        ProveedorForm form = new ProveedorForm(null, true, null);
         form.setVisible(true);
         if (form.isGuardado()) listar();
     }
@@ -154,7 +154,7 @@ public class ProveedoresPanel extends javax.swing.JPanel {
             Long id = (Long) tablaProveedores.getValueAt(row, 0);
             Proveedor p = listaActual.stream().filter(pr -> pr.getId().equals(id)).findFirst().orElse(null);
             if (p != null) {
-                ProveedorForm form = new ProveedorForm(null, p);
+                ProveedorForm form = new ProveedorForm(null, true, p);
                 form.setVisible(true);
                 if (form.isGuardado()) listar();
             }
@@ -164,9 +164,11 @@ public class ProveedoresPanel extends javax.swing.JPanel {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {
         int row = tablaProveedores.getSelectedRow();
         if (row != -1) {
-            if (JOptionPane.showConfirmDialog(this, "¿Eliminar proveedor?") == JOptionPane.YES_OPTION) {
-                Long id = (Long) tablaProveedores.getValueAt(row, 0);
-                if (prDAO.eliminar(id)) listar();
+            Long id = (Long) tablaProveedores.getValueAt(row, 0);
+            if (JOptionPane.showConfirmDialog(this, "¿Seguro?") == 0) {
+                if (controller.eliminarProveedor(id)) {
+                    listar();
+                }
             }
         }
     }

@@ -1,32 +1,33 @@
 package com.temporal.proyectofinal.view;
 
-import com.temporal.proyectofinal.dao.ProveedorDAO;
+import com.temporal.proyectofinal.controller.ComercialController;
 import com.temporal.proyectofinal.model.Proveedor;
 import javax.swing.JOptionPane;
 
 /**
- * Formulario de Proveedores compatible con NetBeans Designer
+ * Formulario de Gestion de Proveedores vinculado al Controlador
  * @author rufernecall
  */
 public class ProveedorForm extends javax.swing.JDialog {
 
-    private Proveedor proveedor;
+    private ComercialController controller;
+    private Proveedor proveedorActual;
     private boolean guardado = false;
 
-    public ProveedorForm(java.awt.Frame parent, Proveedor p) {
-        super(parent, true);
-        this.proveedor = p;
+    public ProveedorForm(java.awt.Frame parent, boolean modal, Proveedor p) {
+        super(parent, modal);
+        this.controller = new ComercialController();
+        this.proveedorActual = p;
         initComponents();
         if (p != null) cargarDatos();
         setLocationRelativeTo(parent);
     }
 
     private void cargarDatos() {
-        txtNombre.setText(proveedor.getNombre());
-        txtRuc.setText(proveedor.getRuc());
-        txtTelefono.setText(proveedor.getTelefono());
-        txtEmail.setText(proveedor.getEmail());
-        txtDireccion.setText(proveedor.getDireccion());
+        txtRuc.setText(proveedorActual.getRuc());
+        txtTelefono.setText(proveedorActual.getTelefono());
+        txtEmail.setText(proveedorActual.getEmail());
+        txtDireccion.setText(proveedorActual.getDireccion());
     }
 
     @SuppressWarnings("unchecked")
@@ -149,21 +150,18 @@ public class ProveedorForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        try {
-            if (proveedor == null) proveedor = new Proveedor();
-            proveedor.setNombre(txtNombre.getText());
-            proveedor.setRuc(txtRuc.getText());
-            proveedor.setTelefono(txtTelefono.getText());
-            proveedor.setEmail(txtEmail.getText());
-            proveedor.setDireccion(txtDireccion.getText());
-
-            ProveedorDAO dao = new ProveedorDAO();
-            if ((proveedor.getId() == null) ? dao.insertar(proveedor) : dao.actualizar(proveedor)) {
-                guardado = true;
-                dispose();
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        if (proveedorActual == null) proveedorActual = new Proveedor();
+        proveedorActual.setNombre(txtNombre.getText());
+        proveedorActual.setRuc(txtRuc.getText());
+        proveedorActual.setTelefono(txtTelefono.getText());
+        proveedorActual.setEmail(txtEmail.getText());
+        proveedorActual.setDireccion(txtDireccion.getText());
+        
+        if (controller.guardarProveedor(proveedorActual)) {
+            guardado = true;
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar proveedor.");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 

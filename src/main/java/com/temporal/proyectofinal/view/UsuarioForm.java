@@ -1,6 +1,6 @@
 package com.temporal.proyectofinal.view;
 
-import com.temporal.proyectofinal.dao.UsuarioDAO;
+import com.temporal.proyectofinal.controller.UsuarioController;
 import com.temporal.proyectofinal.model.Empleado;
 import com.temporal.proyectofinal.model.Usuario;
 import com.temporal.proyectofinal.util.DataStore;
@@ -13,13 +13,13 @@ import javax.swing.JOptionPane;
  */
 public class UsuarioForm extends javax.swing.JDialog {
 
-    private UsuarioDAO uDAO;
+    private UsuarioController controller;
     private Usuario usuarioActual;
     private boolean guardado = false;
 
     public UsuarioForm(java.awt.Frame parent, boolean modal, Usuario u) {
         super(parent, modal);
-        this.uDAO = new UsuarioDAO();
+        this.controller = new UsuarioController();
         this.usuarioActual = u;
         
         initComponents();
@@ -195,7 +195,7 @@ public class UsuarioForm extends javax.swing.JDialog {
             usuarioActual.setEmpleado(null);
         }
         
-        if (usuarioActual.getId() == null ? uDAO.insertar(usuarioActual) : uDAO.actualizar(usuarioActual)) {
+        if (controller.guardarUsuario(usuarioActual)) {
             guardado = true;
             dispose();
         } else {

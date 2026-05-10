@@ -1,43 +1,44 @@
 package com.temporal.proyectofinal.view;
 
-import com.temporal.proyectofinal.dao.EmpleadoDAO;
+import com.temporal.proyectofinal.controller.UsuarioController;
 import com.temporal.proyectofinal.model.Empleado;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Panel de Empleados con CRUD funcional directo a Supabase
+ * Panel de Gestion de Empleados vinculado al Controlador
+ * 
  * @author rufernecall
  */
 public class EmpleadosPanel extends javax.swing.JPanel {
 
-    private EmpleadoDAO eDAO;
+    private UsuarioController controller;
     private DefaultTableModel modelo;
     private List<Empleado> listaActual;
 
     public EmpleadosPanel() {
         initComponents();
-        eDAO = new EmpleadoDAO();
+        controller = new UsuarioController();
         modelo = (DefaultTableModel) tablaEmpleados.getModel();
         listar();
     }
-    
+
     private void listar() {
         try {
             modelo.setRowCount(0);
-            listaActual = eDAO.listar();
+            listaActual = controller.listarEmpleados();
             for (Empleado e : listaActual) {
-                modelo.addRow(new Object[]{
-                    e.getId(),
-                    e.getNombre(),
-                    e.getCargo(),
-                    e.getTelefono(),
-                    String.format("%.2f", e.getSueldo())
+                modelo.addRow(new Object[] {
+                        e.getId(),
+                        e.getNombre(),
+                        e.getDni(),
+                        e.getCargo(),
+                        e.getTelefono()
                 });
             }
-        } catch (Exception ex) {
-            System.out.println("error listando empleados: " + ex.getMessage());
+        } catch (Exception e) {
+            System.out.println("error listando: " + e.getMessage());
         }
     }
 
@@ -45,7 +46,8 @@ public class EmpleadosPanel extends javax.swing.JPanel {
      * This method is called from within the constructor to initialize the form.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -62,16 +64,16 @@ public class EmpleadosPanel extends javax.swing.JPanel {
         jLabel1.setText("Gestión de Empleados");
 
         tablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {},
-            new String [] {
-                "ID", "Nombre", "Cargo", "Teléfono", "Sueldo"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                new Object[][] {},
+                new String[] {
+                        "ID", "Nombre", "Cargo", "Teléfono", "Sueldo"
+                }) {
+            boolean[] canEdit = new boolean[] {
+                    false, false, false, false, false
             };
+
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jScrollPane1.setViewportView(tablaEmpleados);
@@ -109,43 +111,55 @@ public class EmpleadosPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788,
+                                                Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel1)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(btnNuevo,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(
+                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(btnEditar,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(
+                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(btnEliminar,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addContainerGap()));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 30,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                                .addContainerGap()));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {
-        EmpleadoForm form = new EmpleadoForm(null, null);
+        EmpleadoForm form = new EmpleadoForm(null, true, null);
         form.setVisible(true);
-        if (form.isGuardado()) listar();
+        if (form.isGuardado())
+            listar();
     }
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,9 +168,10 @@ public class EmpleadosPanel extends javax.swing.JPanel {
             Long id = (Long) tablaEmpleados.getValueAt(row, 0);
             Empleado emp = listaActual.stream().filter(e -> e.getId().equals(id)).findFirst().orElse(null);
             if (emp != null) {
-                EmpleadoForm form = new EmpleadoForm(null, emp);
+                EmpleadoForm form = new EmpleadoForm(null, true, emp);
                 form.setVisible(true);
-                if (form.isGuardado()) listar();
+                if (form.isGuardado())
+                    listar();
             }
         }
     }
@@ -166,7 +181,8 @@ public class EmpleadosPanel extends javax.swing.JPanel {
         if (row != -1) {
             if (JOptionPane.showConfirmDialog(this, "¿Eliminar empleado?") == JOptionPane.YES_OPTION) {
                 Long id = (Long) tablaEmpleados.getValueAt(row, 0);
-                if (eDAO.eliminar(id)) listar();
+                if (controller.eliminarEmpleado(id))
+                    listar();
             }
         }
     }

@@ -1,4 +1,4 @@
-# ERP & POS System - Nuesto Proyecto Final
+# Novatech ERP - Nuestro Proyecto Final
 
 Este es el resultado de un trabajo enfocado en modernizar lo que normalmente vemos en sistemas de escritorio. No es solo un POS basico; la idea fue llevar la experiencia de un ERP real a Java Swing, conectandolo con una base de datos en la nube y cuidando detalles de rendimiento que usualmente se pasan por alto.
 
@@ -40,7 +40,7 @@ El sistema cambia su interfaz y permisos segun la autenticacion:
 3. El proyecto utiliza maven para su gestion. Compilar con:
    mvn clean install
 4. Para lanzar la aplicacion:
-   mvn exec:java -Dexec.mainClass="com.null_terminators.proyectofinal.ProyectoFinal"
+   mvn exec:java -Dexec.mainClass="com.novatech.proyectofinal.ProyectoFinal"
 
 ---
 

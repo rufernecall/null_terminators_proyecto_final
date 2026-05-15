@@ -1,10 +1,10 @@
 package com.novatech.proyectofinal.controller;
 
 import java.util.List;
-
+import com.novatech.proyectofinal.dao.EmpleadoDAO;
+import com.novatech.proyectofinal.dao.UsuarioDAO;
 import com.novatech.proyectofinal.model.Empleado;
 import com.novatech.proyectofinal.model.Usuario;
-import com.novatech.proyectofinal.service.UsuarioService;
 
 /**
  * Controlador para gestionar usuarios y empleados.
@@ -13,37 +13,47 @@ import com.novatech.proyectofinal.service.UsuarioService;
  */
 public class UsuarioController {
 
-    private final UsuarioService service;
+    private final UsuarioDAO usuarioDAO;
+    private final EmpleadoDAO empleadoDAO;
 
     public UsuarioController() {
-        this.service = new UsuarioService();
+        this.usuarioDAO = new UsuarioDAO();
+        this.empleadoDAO = new EmpleadoDAO();
     }
 
     public List<Usuario> listarUsuarios() {
-        return service.listarUsuarios();
+        return usuarioDAO.listar();
     }
 
     public Usuario login(String user, String pass) {
-        return service.login(user, pass);
+        return usuarioDAO.login(user, pass);
     }
 
     public boolean guardarUsuario(Usuario u) {
-        return service.guardarUsuario(u);
+        if (u.getId() == null) {
+            return usuarioDAO.insertar(u);
+        } else {
+            return usuarioDAO.actualizar(u);
+        }
     }
 
     public boolean eliminarUsuario(Long id) {
-        return service.eliminarUsuario(id);
+        return usuarioDAO.eliminar(id);
     }
 
     public List<Empleado> listarEmpleados() {
-        return service.listarEmpleados();
+        return empleadoDAO.listar();
     }
 
     public boolean guardarEmpleado(Empleado e) {
-        return service.guardarEmpleado(e);
+        if (e.getId() == null) {
+            return empleadoDAO.insertar(e);
+        } else {
+            return empleadoDAO.actualizar(e);
+        }
     }
 
     public boolean eliminarEmpleado(Long id) {
-        return service.eliminarEmpleado(id);
+        return empleadoDAO.eliminar(id);
     }
 }

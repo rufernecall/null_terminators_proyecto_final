@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
  * 
  * @author rufernecall
  */
-public class ClientesPanel extends javax.swing.JPanel {
+public class ClientesPanel extends javax.swing.JPanel implements ViewPanel {
 
     private ComercialController controller;
     private DefaultTableModel modelo;
@@ -21,6 +21,10 @@ public class ClientesPanel extends javax.swing.JPanel {
         initComponents();
         controller = new ComercialController();
         modelo = (DefaultTableModel) tablaClientes.getModel();
+    }
+
+    @Override
+    public void alCargar() {
         listarClientes("");
     }
 

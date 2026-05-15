@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
  * 
  * @author rufernecall
  */
-public class UsuariosPanel extends javax.swing.JPanel {
+public class UsuariosPanel extends javax.swing.JPanel implements ViewPanel {
 
     private UsuarioController controller;
     private DefaultTableModel modelo;
@@ -20,8 +20,12 @@ public class UsuariosPanel extends javax.swing.JPanel {
         initComponents();
         controller = new UsuarioController();
         modelo = (DefaultTableModel) tablaUsuarios.getModel();
-        listar();
         configurarEventos();
+    }
+
+    @Override
+    public void alCargar() {
+        listar();
     }
 
     private void configurarEventos() {

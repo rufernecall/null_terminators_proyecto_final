@@ -1,6 +1,6 @@
 package com.novatech.proyectofinal.view;
 
-import com.novatech.proyectofinal.dao.CategoriaDAO;
+import com.novatech.proyectofinal.controller.InventarioController;
 import com.novatech.proyectofinal.model.Categoria;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -11,22 +11,26 @@ import javax.swing.table.DefaultTableModel;
  * 
  * @author rufernecall
  */
-public class CategoriasPanel extends javax.swing.JPanel {
+public class CategoriasPanel extends javax.swing.JPanel implements ViewPanel {
 
-    private CategoriaDAO cDAO;
+    private InventarioController controller;
     private DefaultTableModel modelo;
 
     public CategoriasPanel() {
-        this.cDAO = new CategoriaDAO();
+        this.controller = new InventarioController();
         initComponents();
         modelo = (DefaultTableModel) tablaCategorias.getModel();
+    }
+
+    @Override
+    public void alCargar() {
         listar();
     }
 
-    // Cargamos la lista desde la base de datos
+    // Cargamos la lista desde el controlador
     private void listar() {
         modelo.setRowCount(0);
-        List<Categoria> lista = cDAO.listar();
+        List<Categoria> lista = controller.listarCategorias();
         for (Categoria c : lista) {
             modelo.addRow(new Object[] {
                     c.getId(),
@@ -155,7 +159,7 @@ public class CategoriasPanel extends javax.swing.JPanel {
             Categoria c = new Categoria();
             c.setNombre(nombre.trim());
             c.setActivo(true);
-            if (cDAO.insertar(c))
+            if (controller.guardarCategoria(c))
                 listar();
         }
     }
@@ -171,7 +175,7 @@ public class CategoriasPanel extends javax.swing.JPanel {
                 c.setId(id);
                 c.setNombre(nuevo.trim());
                 c.setActivo(true);
-                if (cDAO.actualizar(c))
+                if (controller.guardarCategoria(c))
                     listar();
             }
         }
@@ -182,8 +186,10 @@ public class CategoriasPanel extends javax.swing.JPanel {
         if (row != -1) {
             Long id = (Long) tablaCategorias.getValueAt(row, 0);
             if (JOptionPane.showConfirmDialog(this, "¿Borrar esta categoria?") == 0) {
-                if (cDAO.eliminar(id))
+                if (controller.eliminarCategoria(id))
                     listar();
+                else
+                    JOptionPane.showMessageDialog(this, "No se puede eliminar una categoria con productos.");
             }
         }
     }

@@ -1,10 +1,10 @@
 package com.novatech.proyectofinal.controller;
 
 import java.util.List;
-
+import com.novatech.proyectofinal.dao.CategoriaDAO;
+import com.novatech.proyectofinal.dao.ProductoDAO;
 import com.novatech.proyectofinal.model.Categoria;
 import com.novatech.proyectofinal.model.Producto;
-import com.novatech.proyectofinal.service.InventarioService;
 
 /**
  * Controlador para la gestion del inventario.
@@ -13,38 +13,61 @@ import com.novatech.proyectofinal.service.InventarioService;
  */
 public class InventarioController {
 
-    private final InventarioService service;
+    private final ProductoDAO productoDAO;
+    private final CategoriaDAO categoriaDAO;
 
     public InventarioController() {
-        this.service = new InventarioService();
+        this.productoDAO = new ProductoDAO();
+        this.categoriaDAO = new CategoriaDAO();
     }
 
     public List<Producto> listarProductos() {
-        return service.obtenerTodosLosProductos();
+        return productoDAO.listar();
     }
 
     public List<Categoria> listarCategorias() {
-        return service.obtenerTodasLasCategorias();
+        return categoriaDAO.listar();
     }
 
     public boolean guardarProducto(Producto p) {
-        return service.guardarProducto(p);
+        // Validacion de negocio: No permitir stock negativo
+        if (p.getStock() < 0) {
+            return false;
+        }
+
+        if (p.getId() == null) {
+            return productoDAO.insertar(p);
+        } else {
+            return productoDAO.actualizar(p);
+        }
     }
 
     public boolean eliminarProducto(Long id) {
-        return service.eliminarProducto(id);
+        return productoDAO.eliminar(id);
+    }
+
+    // Gestion de Categorias
+    public boolean guardarCategoria(Categoria c) {
+        if (c.getId() == null) {
+            return categoriaDAO.insertar(c);
+        } else {
+            return categoriaDAO.actualizar(c);
+        }
+    }
+
+    public boolean eliminarCategoria(Long id) {
+        return categoriaDAO.eliminar(id);
     }
 
     public int getTotalProductos() {
-        return service.obtenerTodosLosProductos().size();
+        return productoDAO.getTotalProductos();
     }
 
     public int getTotalStockGlobal() {
-        return service.obtenerTodosLosProductos().stream().mapToInt(Producto::getStock).sum();
+        return productoDAO.getTotalStockGlobal();
     }
 
     public double getValorInventarioTotal() {
-        return service.obtenerTodosLosProductos().stream()
-                .mapToDouble(p -> p.getPrecio() * p.getStock()).sum();
+        return productoDAO.getValorInventarioTotal();
     }
 }

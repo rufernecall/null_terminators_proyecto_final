@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
  * 
  * @author rufernecall
  */
-public class ProveedoresPanel extends javax.swing.JPanel {
+public class ProveedoresPanel extends javax.swing.JPanel implements ViewPanel {
 
     private ComercialController controller;
     private DefaultTableModel modelo;
@@ -21,6 +21,10 @@ public class ProveedoresPanel extends javax.swing.JPanel {
         initComponents();
         controller = new ComercialController();
         modelo = (DefaultTableModel) tablaProveedores.getModel();
+    }
+
+    @Override
+    public void alCargar() {
         listar();
     }
 

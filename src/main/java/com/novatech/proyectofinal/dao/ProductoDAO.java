@@ -112,13 +112,30 @@ public class ProductoDAO {
     }
 
     public boolean eliminar(Long id) {
-        String sql = "DELETE FROM productos WHERE id = ?";
+        // Primero verificamos si tiene movimientos asociados para dar un mensaje claro
+        String checkSql = "SELECT (SELECT COUNT(*) FROM detalles_venta WHERE producto_id = ?) + " +
+                          "(SELECT COUNT(*) FROM detalles_compra WHERE producto_id = ?)";
+        
         Connection con = DatabaseConnection.getConnection();
+        try (PreparedStatement psCheck = con.prepareStatement(checkSql)) {
+            psCheck.setLong(1, id);
+            psCheck.setLong(2, id);
+            try (ResultSet rs = psCheck.executeQuery()) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    System.err.println("No se puede eliminar: El producto tiene historial de movimientos.");
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al verificar dependencias: " + e.getMessage());
+        }
+
+        String sql = "DELETE FROM productos WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setLong(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error al eliminar producto: " + e.getMessage());
             return false;
         }
     }

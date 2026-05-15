@@ -1,5 +1,6 @@
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/ProyectoFinal.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/controller/ComercialController.java
+/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/controller/FinanzasController.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/controller/InventarioController.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/controller/ReporteController.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/controller/UsuarioController.java
@@ -29,11 +30,6 @@
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/model/Proveedor.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/model/Usuario.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/model/Venta.java
-/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/service/ComercialService.java
-/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/service/FinanzasService.java
-/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/service/InventarioService.java
-/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/service/Sincronizador.java
-/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/service/UsuarioService.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/util/DataStore.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/util/ReporteUtil.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/util/SupabaseStorageUtil.java
@@ -56,3 +52,4 @@
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/view/UsuarioForm.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/view/UsuariosPanel.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/view/VentasPanel.java
+/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/view/ViewPanel.java

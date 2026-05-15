@@ -93,6 +93,6 @@ public class Producto {
 
     @Override
     public String toString() {
-        return nombre + " - $" + precio + " (Stock: " + stock + ")";
+        return nombre + " - S/." + precio + " (Stock: " + stock + ")";
     }
 }

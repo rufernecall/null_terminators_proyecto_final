@@ -36,24 +36,24 @@ public class MainFrame extends javax.swing.JFrame {
         configurarHotkeys();
 
         // ir al dashboard
-        cardLayout.show(contentPanel, "dashboard");
+        showPanel("dashboard");
     }
 
     private void configurarHotkeys() {
         // F1 -> Dashboard
-        getRootPane().registerKeyboardAction(e -> cardLayout.show(contentPanel, "dashboard"),
+        getRootPane().registerKeyboardAction(e -> showPanel("dashboard"),
                 KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
         // F2 -> Ventas (POS)
-        getRootPane().registerKeyboardAction(e -> cardLayout.show(contentPanel, "ventas"),
+        getRootPane().registerKeyboardAction(e -> showPanel("ventas"),
                 KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
         // F3 -> Inventario
-        getRootPane().registerKeyboardAction(e -> cardLayout.show(contentPanel, "inventario"),
+        getRootPane().registerKeyboardAction(e -> showPanel("inventario"),
                 KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
         // F4 -> Reportes
-        getRootPane().registerKeyboardAction(e -> cardLayout.show(contentPanel, "reportes"),
+        getRootPane().registerKeyboardAction(e -> showPanel("reportes"),
                 KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
     }
 
@@ -292,40 +292,52 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void showPanel(String name) {
+        cardLayout.show(contentPanel, name);
+        
+        // Buscamos el componente que se esta mostrando para refrescar sus datos
+        for (java.awt.Component comp : contentPanel.getComponents()) {
+            if (comp.isVisible() && comp instanceof ViewPanel) {
+                ((ViewPanel) comp).alCargar();
+                break;
+            }
+        }
+    }
+
     private void itemInventarioActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemInventarioActionPerformed
-        cardLayout.show(contentPanel, "inventario");
+        showPanel("inventario");
     }// GEN-LAST:event_itemInventarioActionPerformed
 
     private void itemCategoriasActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemCategoriasActionPerformed
-        cardLayout.show(contentPanel, "categorias");
+        showPanel("categorias");
     }// GEN-LAST:event_itemCategoriasActionPerformed
 
     private void itemPosActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemPosActionPerformed
-        cardLayout.show(contentPanel, "ventas");
+        showPanel("ventas");
     }// GEN-LAST:event_itemPosActionPerformed
 
     private void itemDashboardActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemDashboardActionPerformed
-        cardLayout.show(contentPanel, "dashboard");
+        showPanel("dashboard");
     }// GEN-LAST:event_itemDashboardActionPerformed
 
     private void itemClientesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemClientesActionPerformed
-        cardLayout.show(contentPanel, "clientes");
+        showPanel("clientes");
     }// GEN-LAST:event_itemClientesActionPerformed
 
     private void itemEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemEmpleadosActionPerformed
-        cardLayout.show(contentPanel, "empleados");
+        showPanel("empleados");
     }// GEN-LAST:event_itemEmpleadosActionPerformed
 
     private void itemProveedoresActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemProveedoresActionPerformed
-        cardLayout.show(contentPanel, "proveedores");
+        showPanel("proveedores");
     }// GEN-LAST:event_itemProveedoresActionPerformed
 
     private void itemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemUsuariosActionPerformed
-        cardLayout.show(contentPanel, "usuarios");
+        showPanel("usuarios");
     }// GEN-LAST:event_itemUsuariosActionPerformed
 
     private void itemReportesActionPerformed(java.awt.event.ActionEvent evt) {
-        cardLayout.show(contentPanel, "reportes");
+        showPanel("reportes");
     }
 
     private void itemLogoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemLogoutActionPerformed

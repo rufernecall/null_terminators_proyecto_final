@@ -1,7 +1,7 @@
 package com.novatech.proyectofinal.view;
 
 import com.novatech.proyectofinal.model.*;
-import com.novatech.proyectofinal.service.ComercialService;
+import com.novatech.proyectofinal.controller.ComercialController;
 import com.novatech.proyectofinal.util.DataStore;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,14 +17,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class EntradaStockForm extends javax.swing.JDialog {
 
-    private final ComercialService comercialService;
+    private final ComercialController comercialController;
     private final List<DetalleCompra> detalles;
     private final Empleado responsable;
     private double totalCompra = 0.0;
 
     public EntradaStockForm(java.awt.Frame parent, boolean modal, Empleado responsable) {
         super(parent, modal);
-        this.comercialService = new ComercialService();
+        this.comercialController = new ComercialController();
         this.detalles = new ArrayList<>();
         this.responsable = responsable;
         initComponents();
@@ -96,7 +96,7 @@ public class EntradaStockForm extends javax.swing.JDialog {
         c.setTotal(totalCompra);
         c.setEstado("COMPLETADO");
 
-        if (comercialService.registrarCompra(c, detalles)) {
+        if (comercialController.registrarCompra(c, detalles)) {
             JOptionPane.showMessageDialog(this, "Adquisicion registrada y stock actualizado.");
             DataStore.getInstance().refrescarProductos();
             dispose();

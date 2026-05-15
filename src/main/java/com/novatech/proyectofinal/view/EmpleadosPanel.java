@@ -12,7 +12,7 @@ import com.novatech.proyectofinal.model.Empleado;
  * 
  * @author rufernecall
  */
-public class EmpleadosPanel extends javax.swing.JPanel {
+public class EmpleadosPanel extends javax.swing.JPanel implements ViewPanel {
 
     private UsuarioController controller;
     private DefaultTableModel modelo;
@@ -22,6 +22,10 @@ public class EmpleadosPanel extends javax.swing.JPanel {
         initComponents();
         controller = new UsuarioController();
         modelo = (DefaultTableModel) tablaEmpleados.getModel();
+    }
+
+    @Override
+    public void alCargar() {
         listar();
     }
 

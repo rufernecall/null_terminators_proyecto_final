@@ -1,12 +1,13 @@
 package com.novatech.proyectofinal.controller;
 
+import com.novatech.proyectofinal.dao.FinanzasDAO;
 import com.novatech.proyectofinal.dao.ProductoDAO;
 import com.novatech.proyectofinal.dao.VentasDAO;
 import com.novatech.proyectofinal.model.DetalleVenta;
 import com.novatech.proyectofinal.model.Empleado;
 import com.novatech.proyectofinal.model.Venta;
 import com.novatech.proyectofinal.model.Producto;
-import com.novatech.proyectofinal.service.FinanzasService;
+import com.novatech.proyectofinal.model.Comprobante;
 import com.novatech.proyectofinal.util.ReporteUtil;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,16 +22,15 @@ public class VentaController {
 
     private final VentasDAO ventasDAO;
     private final ProductoDAO productoDAO;
+    private final FinanzasDAO finanzasDAO;
 
     private List<DetalleVenta> carrito;
     private double totalVenta;
 
-    private final FinanzasService finanzasService;
-
     public VentaController() {
         this.ventasDAO = new VentasDAO();
         this.productoDAO = new ProductoDAO();
-        this.finanzasService = new FinanzasService();
+        this.finanzasDAO = new FinanzasDAO();
         this.carrito = new ArrayList<>();
         this.totalVenta = 0.0;
     }
@@ -68,10 +68,12 @@ public class VentaController {
         
         orden.getMetadata().put("tipoDoc", tipoComprobante);
 
-        // Registrar venta
+        // Registrar venta en DB
         boolean exito = ventasDAO.registrarVenta(orden, carrito);
 
         if (exito) {
+            // Generar Comprobante (Boleta/Factura)
+            generarComprobante(orden, tipoComprobante);
 
             try {
                 ReporteUtil.generarBoletaPDF(orden, carrito);
@@ -82,6 +84,20 @@ public class VentaController {
         }
 
         return exito;
+    }
+
+    private void generarComprobante(Venta v, String tipo) {
+        Comprobante c = new Comprobante();
+        c.setTipo(tipo);
+        String serie = tipo.equalsIgnoreCase("FACTURA") ? "F001" : "B001";
+        c.setSerie(serie);
+        c.setNumero(finanzasDAO.obtenerSiguienteNumero(tipo, serie));
+        c.setFecha(LocalDateTime.now());
+        c.setMontoTotal(v.getTotal());
+        c.setEstado("EMITIDO");
+        c.setVentaId(v.getId());
+        
+        finanzasDAO.registrarComprobante(c);
     }
 
     public List<DetalleVenta> getCarrito() {

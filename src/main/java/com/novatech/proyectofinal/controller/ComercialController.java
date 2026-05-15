@@ -1,43 +1,64 @@
 package com.novatech.proyectofinal.controller;
 
+import com.novatech.proyectofinal.dao.ClienteDAO;
+import com.novatech.proyectofinal.dao.ProveedorDAO;
+import com.novatech.proyectofinal.dao.ComprasDAO;
 import com.novatech.proyectofinal.model.Cliente;
 import com.novatech.proyectofinal.model.Proveedor;
-import com.novatech.proyectofinal.service.ComercialService;
+import com.novatech.proyectofinal.model.Compra;
+import com.novatech.proyectofinal.model.DetalleCompra;
 import java.util.List;
 
 /**
- * Controlador Comercial vinculado al Servicio
+ * Controlador Comercial para gestionar clientes, proveedores y compras.
+ * 
  * @author rufernecall
  */
 public class ComercialController {
 
-    private final ComercialService service;
+    private final ClienteDAO clienteDAO;
+    private final ProveedorDAO proveedorDAO;
+    private final ComprasDAO comprasDAO;
 
     public ComercialController() {
-        this.service = new ComercialService();
+        this.clienteDAO = new ClienteDAO();
+        this.proveedorDAO = new ProveedorDAO();
+        this.comprasDAO = new ComprasDAO();
     }
 
     public List<Cliente> listarClientes() {
-        return service.listarClientes();
+        return clienteDAO.listar();
     }
 
     public List<Proveedor> listarProveedores() {
-        return service.listarProveedores();
+        return proveedorDAO.listar();
     }
 
     public boolean guardarCliente(Cliente c) {
-        return service.guardarCliente(c);
+        if (c.getId() == null) {
+            return clienteDAO.insertar(c);
+        } else {
+            return clienteDAO.actualizar(c);
+        }
     }
 
     public boolean guardarProveedor(Proveedor p) {
-        return service.guardarProveedor(p);
+        if (p.getId() == null) {
+            return proveedorDAO.insertar(p);
+        } else {
+            return proveedorDAO.actualizar(p);
+        }
     }
 
     public boolean eliminarCliente(Long id) {
-        return service.eliminarCliente(id);
+        return clienteDAO.eliminar(id);
     }
 
     public boolean eliminarProveedor(Long id) {
-        return service.eliminarProveedor(id);
+        return proveedorDAO.eliminar(id);
+    }
+
+    public boolean registrarCompra(Compra compra, List<DetalleCompra> detalles) {
+        return comprasDAO.registrarCompra(compra, detalles);
     }
 }

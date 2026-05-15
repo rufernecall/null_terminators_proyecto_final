@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
  * 
  * @author rufernecall
  */
-public class InventarioPanel extends javax.swing.JPanel {
+public class InventarioPanel extends javax.swing.JPanel implements ViewPanel {
 
     private InventarioController controller;
     private DefaultTableModel modelo;
@@ -26,7 +26,7 @@ public class InventarioPanel extends javax.swing.JPanel {
         this.usuarioLogueado = usuario;
 
         // boton de entrada
-        btnEntrada = new javax.swing.JButton("📦 Entrada");
+        btnEntrada = new javax.swing.JButton("Entrada");
         btnEntrada.setBackground(new java.awt.Color(255, 140, 0));
         btnEntrada.setForeground(java.awt.Color.WHITE);
         btnEntrada.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
@@ -39,6 +39,10 @@ public class InventarioPanel extends javax.swing.JPanel {
 
         initCustomKpis();
         configurarTabla();
+    }
+
+    @Override
+    public void alCargar() {
         listarProductos("");
         cargarKpis();
     }

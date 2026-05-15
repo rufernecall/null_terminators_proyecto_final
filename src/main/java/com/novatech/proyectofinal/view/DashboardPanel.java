@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
  * 
  * @author rufernecall
  */
-public class DashboardPanel extends javax.swing.JPanel {
+public class DashboardPanel extends javax.swing.JPanel implements ViewPanel {
 
     private ReporteController controller;
     private JLabel lblVentasHoy, lblTotalProductos, lblTotalClientes, lblStockCritico;
@@ -26,6 +26,10 @@ public class DashboardPanel extends javax.swing.JPanel {
         controller = new ReporteController();
         modelo = (DefaultTableModel) tablaRecientes.getModel();
         initCustomCards();
+    }
+
+    @Override
+    public void alCargar() {
         cargarEstadisticas();
     }
 

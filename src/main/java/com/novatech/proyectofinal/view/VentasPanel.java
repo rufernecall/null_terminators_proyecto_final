@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import com.novatech.proyectofinal.controller.VentaController;
-import com.novatech.proyectofinal.dao.ClienteDAO;
+import com.novatech.proyectofinal.controller.ComercialController;
 import com.novatech.proyectofinal.model.Categoria;
 import com.novatech.proyectofinal.model.Cliente;
 import com.novatech.proyectofinal.model.Producto;
@@ -25,23 +25,27 @@ import com.novatech.proyectofinal.util.DataStore;
  * 
  * @author rufernecall
  */
-public class VentasPanel extends javax.swing.JPanel {
+public class VentasPanel extends javax.swing.JPanel implements ViewPanel {
 
     private VentaController controller;
+    private ComercialController comercialController;
     private Usuario usuarioLogueado;
     private Long categoriaSeleccionada = null;
-    private ClienteDAO clienteDAO;
 
     public VentasPanel(Usuario usuario) {
         this.usuarioLogueado = usuario;
         this.controller = new VentaController();
-        this.clienteDAO = new ClienteDAO();
+        this.comercialController = new ComercialController();
         initComponents();
+        configurarTabla();
+        configurarResponsive();
+    }
+
+    @Override
+    public void alCargar() {
         cargarCategorias();
         cargarClientes();
         refrescarCatalogo();
-        configurarTabla();
-        configurarResponsive();
     }
 
     private void configurarResponsive() {
@@ -67,7 +71,7 @@ public class VentasPanel extends javax.swing.JPanel {
 
     private void cargarCategorias() {
         pnlCategorias.removeAll();
-        // Eliminado emoji de "TODO"
+        // Boton para mostrar todos los productos
         JButton btnTodos = crearBotonCategoria("TODOS", null);
         pnlCategorias.add(btnTodos);
 
@@ -81,7 +85,7 @@ public class VentasPanel extends javax.swing.JPanel {
     }
 
     private void cargarClientes() {
-        List<Cliente> clientes = clienteDAO.listar();
+        List<Cliente> clientes = comercialController.listarClientes();
         DefaultComboBoxModel<Cliente> model = new DefaultComboBoxModel<>();
         for (Cliente c : clientes) {
             model.addElement(c);

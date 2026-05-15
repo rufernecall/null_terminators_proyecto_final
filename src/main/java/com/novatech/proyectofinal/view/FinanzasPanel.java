@@ -1,6 +1,6 @@
 package com.novatech.proyectofinal.view;
 
-import com.novatech.proyectofinal.dao.FinanzasDAO;
+import com.novatech.proyectofinal.controller.FinanzasController;
 import com.novatech.proyectofinal.model.Comprobante;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -9,21 +9,25 @@ import javax.swing.table.DefaultTableModel;
  * Panel para la gestion y visualizacion de Facturas y Boletas
  * @author rufernecall
  */
-public class FinanzasPanel extends javax.swing.JPanel {
+public class FinanzasPanel extends javax.swing.JPanel implements ViewPanel {
 
-    private final FinanzasDAO finanzasDAO;
+    private final FinanzasController controller;
     private DefaultTableModel modelo;
 
     public FinanzasPanel() {
-        this.finanzasDAO = new FinanzasDAO();
+        this.controller = new FinanzasController();
         initComponents();
         modelo = (DefaultTableModel) tablaComprobantes.getModel();
+    }
+
+    @Override
+    public void alCargar() {
         listarComprobantes();
     }
 
     private void listarComprobantes() {
         modelo.setRowCount(0);
-        List<Comprobante> lista = finanzasDAO.listar();
+        List<Comprobante> lista = controller.listarComprobantes();
         for (Comprobante c : lista) {
             modelo.addRow(new Object[]{
                 c.getId(),

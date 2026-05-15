@@ -1,22 +1,27 @@
-package com.novatech.proyectofinal.service;
+package com.novatech.proyectofinal.controller;
 
 import com.novatech.proyectofinal.dao.FinanzasDAO;
 import com.novatech.proyectofinal.model.Comprobante;
-import com.novatech.proyectofinal.model.Compra;
 import com.novatech.proyectofinal.model.Venta;
+import com.novatech.proyectofinal.model.Compra;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * Servicio para la gestion de facturacion y documentos legales
+ * Controlador para la gestion financiera y comprobantes.
  * 
  * @author rufernecall
  */
-public class FinanzasService {
+public class FinanzasController {
 
     private final FinanzasDAO finanzasDAO;
 
-    public FinanzasService() {
+    public FinanzasController() {
         this.finanzasDAO = new FinanzasDAO();
+    }
+
+    public List<Comprobante> listarComprobantes() {
+        return finanzasDAO.listar();
     }
 
     public Comprobante generarComprobanteVenta(Venta venta, String tipo) {
@@ -45,7 +50,7 @@ public class FinanzasService {
     public Comprobante generarComprobanteCompra(Compra compra, String tipo) {
         Comprobante c = new Comprobante();
         c.setTipo(tipo);
-        c.setSerie("ADQ1"); // Serie para adquisiciones
+        c.setSerie("ADQ1");
 
         int siguiente = finanzasDAO.obtenerSiguienteNumero(tipo, c.getSerie());
         c.setNumero(siguiente);

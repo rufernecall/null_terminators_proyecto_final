@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
  * 
  * @author rufernecall
  */
-public class ReportesPanel extends javax.swing.JPanel {
+public class ReportesPanel extends javax.swing.JPanel implements ViewPanel {
 
     private ReporteController controller;
     private DefaultTableModel modelo;
@@ -19,6 +19,10 @@ public class ReportesPanel extends javax.swing.JPanel {
         initComponents();
         controller = new ReporteController();
         modelo = (DefaultTableModel) tablaVentas.getModel();
+    }
+
+    @Override
+    public void alCargar() {
         listarVentas();
         cargarEstadisticas();
     }

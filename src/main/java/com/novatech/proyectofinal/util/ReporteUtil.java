@@ -35,8 +35,12 @@ public class ReporteUtil {
                 Font fontNormal = FontFactory.getFont(FontFactory.HELVETICA, 12);
                 Font fontHeader = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.WHITE);
 
+                // Determinar el titulo
+                String docType = (String) orden.getMetadata().getOrDefault("tipoDoc", "BOLETA");
+                String tituloTexto = docType.equalsIgnoreCase("FACTURA") ? "FACTURA DE VENTA" : "BOLETA DE VENTA";
+
                 // Cabecera
-                Paragraph titulo = new Paragraph("BOLETA DE VENTA", fontTitulo);
+                Paragraph titulo = new Paragraph(tituloTexto, fontTitulo);
                 titulo.setAlignment(Element.ALIGN_CENTER);
                 titulo.setSpacingAfter(20);
                 document.add(titulo);

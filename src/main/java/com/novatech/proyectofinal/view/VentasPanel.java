@@ -37,6 +37,8 @@ public class VentasPanel extends javax.swing.JPanel implements ViewPanel {
         this.controller = new VentaController();
         this.comercialController = new ComercialController();
         initComponents();
+        lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 36));
+        lblTotal.setForeground(new java.awt.Color(40, 167, 69));
         configurarTabla();
         configurarResponsive();
     }
@@ -180,8 +182,7 @@ public class VentasPanel extends javax.swing.JPanel implements ViewPanel {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         pnlCategorias = new javax.swing.JPanel();

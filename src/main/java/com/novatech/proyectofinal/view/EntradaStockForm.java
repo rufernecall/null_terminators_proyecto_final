@@ -105,11 +105,8 @@ public class EntradaStockForm extends javax.swing.JDialog {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         lblTitulo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         cmbProveedor = new javax.swing.JComboBox<>();
@@ -127,22 +124,21 @@ public class EntradaStockForm extends javax.swing.JDialog {
         btnFinalizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Entrada de Mercaderia");
+        setTitle("Registro de Adquisición");
 
-        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(50, 100, 255));
         lblTitulo.setText("REGISTRO DE ADQUISICIÓN");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Proveedor:");
 
-        pnlAdd.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Añadir Item al Detalle", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 11))); // NOI18N
+        pnlAdd.setBorder(javax.swing.BorderFactory.createTitledBorder("Añadir Item al Detalle"));
         pnlAdd.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 10));
 
         jLabel2.setText("Producto:");
         pnlAdd.add(jLabel2);
 
-        cmbProducto.setPreferredSize(new java.awt.Dimension(250, 30));
+        cmbProducto.setPreferredSize(new java.awt.Dimension(300, 30));
         pnlAdd.add(cmbProducto);
 
         jLabel3.setText("Cant:");
@@ -234,6 +230,7 @@ public class EntradaStockForm extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnFinalizar;
     private javax.swing.JComboBox<Producto> cmbProducto;
@@ -249,4 +246,5 @@ public class EntradaStockForm extends javax.swing.JDialog {
     private javax.swing.JTable tablaDetalles;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCosto;
+    // End of variables declaration//GEN-END:variables
 }

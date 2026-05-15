@@ -3,6 +3,8 @@ package com.novatech.proyectofinal.view;
 import com.novatech.proyectofinal.model.Usuario;
 import com.novatech.proyectofinal.util.DataStore;
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.function.Consumer;
 import javax.swing.*;
 
@@ -22,8 +24,8 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         cardLayout = (CardLayout) contentPanel.getLayout();
 
-        // Titulo
-        setTitle("Novatech ERP | Rol: " + usuario.getRol() + " | Usuario: " + usuario.getUsername());
+        // Titulo limpio
+        setTitle("Novatech ERP");
         setLocationRelativeTo(null);
 
         // Sincronizamos la data con Supabase
@@ -61,7 +63,7 @@ public class MainFrame extends javax.swing.JFrame {
         String rol = usuarioLogueado.getRol();
 
         // Paneles comunes o base
-        contentPanel.add(new DashboardPanel(), "dashboard");
+        contentPanel.add(new DashboardPanel(usuarioLogueado), "dashboard");
 
         // Carga condicional segun Rol
         if (rol.equals("ADMIN") || rol.equals("VENDEDOR")) {
@@ -69,8 +71,9 @@ public class MainFrame extends javax.swing.JFrame {
             contentPanel.add(new ClientesPanel(), "clientes");
         }
 
-        if (rol.equals("ADMIN") || rol.equals("ALMACENERO")) {
+        if (rol.equals("ADMIN") || rol.equals("ALMACENERO") || rol.equals("GERENTE")) {
             contentPanel.add(new InventarioPanel(usuarioLogueado), "inventario");
+            contentPanel.add(new MovimientosPanel(), "movimientos");
             contentPanel.add(new CategoriasPanel(), "categorias");
             contentPanel.add(new ProveedoresPanel(), "proveedores");
         }
@@ -94,7 +97,8 @@ public class MainFrame extends javax.swing.JFrame {
         boolean isGerente = "GERENTE".equals(rol);
 
         // Menu Almacen
-        menuAlmacen.setVisible(isAdmin || isAlmacenero);
+        menuAlmacen.setVisible(isAdmin || isAlmacenero || isGerente);
+        itemMovimientos.setVisible(isAdmin || isAlmacenero || isGerente);
 
         // Menu Ventas
         menuVentas.setVisible(isAdmin || isVendedor || isGerente);
@@ -124,6 +128,7 @@ public class MainFrame extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         menuAlmacen = new javax.swing.JMenu();
         itemInventario = new javax.swing.JMenuItem();
+        itemMovimientos = new javax.swing.JMenuItem();
         itemCategorias = new javax.swing.JMenuItem();
         menuVentas = new javax.swing.JMenu();
         itemPos = new javax.swing.JMenuItem();
@@ -150,6 +155,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         menuAlmacen.add(itemInventario);
+
+        itemMovimientos.setText("Historial de Movimientos");
+        itemMovimientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showPanel("movimientos");
+            }
+        });
+        menuAlmacen.add(itemMovimientos);
 
         itemCategorias.setText("Categorias");
         itemCategorias.addActionListener(new java.awt.event.ActionListener() {
@@ -294,7 +307,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void showPanel(String name) {
         cardLayout.show(contentPanel, name);
-        
+
         // Buscamos el componente que se esta mostrando para refrescar sus datos
         for (java.awt.Component comp : contentPanel.getComponents()) {
             if (comp.isVisible() && comp instanceof ViewPanel) {
@@ -336,9 +349,9 @@ public class MainFrame extends javax.swing.JFrame {
         showPanel("usuarios");
     }// GEN-LAST:event_itemUsuariosActionPerformed
 
-    private void itemReportesActionPerformed(java.awt.event.ActionEvent evt) {
+    private void itemReportesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemReportesActionPerformed
         showPanel("reportes");
-    }
+    }// GEN-LAST:event_itemReportesActionPerformed
 
     private void itemLogoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_itemLogoutActionPerformed
         dispose();
@@ -352,6 +365,7 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
     private javax.swing.JMenuItem itemCategorias;
+    private javax.swing.JMenuItem itemMovimientos;
     private javax.swing.JMenuItem itemClientes;
     private javax.swing.JMenuItem itemDashboard;
     private javax.swing.JMenuItem itemEmpleados;
@@ -371,4 +385,5 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnlStatus;
     private javax.swing.JLabel lblStatusUser;
     private javax.swing.JLabel lblStatusRole;
+    // End of variables declaration//GEN-END:variables
 }

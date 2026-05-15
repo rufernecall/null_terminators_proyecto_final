@@ -21,11 +21,15 @@ public class DashboardPanel extends javax.swing.JPanel implements ViewPanel {
     private JLabel lblVentasHoy, lblTotalProductos, lblTotalClientes, lblStockCritico;
     private DefaultTableModel modelo;
 
-    public DashboardPanel() {
+    public DashboardPanel(com.novatech.proyectofinal.model.Usuario usuario) {
         initComponents();
         controller = new ReporteController();
         modelo = (DefaultTableModel) tablaRecientes.getModel();
         initCustomCards();
+        
+        if (usuario != null) {
+            lblTitulo.setText("Bienvenido, " + usuario.getUsername());
+        }
     }
 
     @Override
@@ -89,30 +93,42 @@ public class DashboardPanel extends javax.swing.JPanel implements ViewPanel {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(getBackground());
+                
+                // Fondo con degradado sutil
+                GradientPaint gp = new GradientPaint(0, 0, new Color(35, 35, 45), 0, getHeight(), new Color(25, 25, 35));
+                g2.setPaint(gp);
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                
+                g2.setColor(new Color(acento.getRed(), acento.getGreen(), acento.getBlue(), 40));
+                g2.setStroke(new BasicStroke(2f));
+                g2.drawRoundRect(1, 1, getWidth() - 3, getHeight() - 3, 20, 20);
+                
+                // Indicador lateral
+                g2.setColor(acento);
+                g2.fillRoundRect(0, 20, 4, getHeight() - 40, 2, 2);
+                
                 g2.dispose();
             }
         };
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setBackground(new Color(30, 30, 40));
-        card.setBorder(new EmptyBorder(20, 20, 20, 20));
+        card.setOpaque(false);
+        card.setBorder(new EmptyBorder(25, 25, 25, 25));
 
         JLabel lblTit = new JLabel(titulo);
-        lblTit.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        lblTit.setForeground(acento);
-        valor.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        lblTit.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        lblTit.setForeground(new Color(180, 180, 180));
+        
+        valor.setFont(new Font("Segoe UI", Font.BOLD, 32));
         valor.setForeground(Color.WHITE);
 
         card.add(lblTit);
-        card.add(Box.createVerticalStrut(10));
+        card.add(Box.createVerticalStrut(12));
         card.add(valor);
         return card;
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         pnlMain = new javax.swing.JPanel();

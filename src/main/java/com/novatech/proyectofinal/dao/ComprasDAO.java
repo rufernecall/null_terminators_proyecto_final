@@ -15,6 +15,7 @@ public class ComprasDAO {
         String sqlCompra = "INSERT INTO compras (proveedor_id, responsable_id, total, fecha, estado) VALUES (?, ?, ?, ?, ?) RETURNING id";
         String sqlDetalle = "INSERT INTO detalles_compra (compra_id, producto_id, cantidad, costo_unitario, subtotal) VALUES (?, ?, ?, ?, ?)";
         String sqlUpdateStock = "UPDATE productos SET stock = stock + ? WHERE id = ?";
+        String sqlMov = "INSERT INTO movimientos (producto_id, cantidad, tipo, motivo, fecha) VALUES (?, ?, 'ENTRADA', ?, ?)";
 
         Connection con = DatabaseConnection.getConnection();
         try {
@@ -38,9 +39,11 @@ public class ComprasDAO {
                 }
             }
 
-            // 2. Insertar Detalles y Actualizar Stock
+            // 2. Insertar Detalles, Actualizar Stock y Registrar Movimientos
+            
             try (PreparedStatement psDet = con.prepareStatement(sqlDetalle);
-                 PreparedStatement psStock = con.prepareStatement(sqlUpdateStock)) {
+                 PreparedStatement psStock = con.prepareStatement(sqlUpdateStock);
+                 PreparedStatement psMov = con.prepareStatement(sqlMov)) {
                 
                 for (DetalleCompra d : detalles) {
                     // Detalle
@@ -55,9 +58,17 @@ public class ComprasDAO {
                     psStock.setInt(1, d.getCantidad());
                     psStock.setLong(2, d.getProducto().getId());
                     psStock.addBatch();
+                    
+                    // Movimiento
+                    psMov.setLong(1, d.getProducto().getId());
+                    psMov.setInt(2, d.getCantidad());
+                    psMov.setString(3, "COMPRA REGISTRADA #" + compra.getId());
+                    psMov.setTimestamp(4, Timestamp.valueOf(compra.getFecha()));
+                    psMov.addBatch();
                 }
                 psDet.executeBatch();
                 psStock.executeBatch();
+                psMov.executeBatch();
             }
 
             con.commit();

@@ -49,8 +49,7 @@ public class ReportesPanel extends javax.swing.JPanel implements ViewPanel {
      * This method is called from within the constructor to initialize the form.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         jLabel1 = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();

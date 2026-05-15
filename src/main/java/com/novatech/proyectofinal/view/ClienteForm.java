@@ -33,9 +33,8 @@ public class ClienteForm extends javax.swing.JDialog {
         }
 
         @SuppressWarnings("unchecked")
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // Code">//GEN-BEGIN:initComponents
-        private void initComponents() {
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
                 lblTitulo = new javax.swing.JLabel();
                 jLabel2 = new javax.swing.JLabel();

@@ -41,8 +41,7 @@ public class CategoriasPanel extends javax.swing.JPanel implements ViewPanel {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         lblTitulo = new javax.swing.JLabel();

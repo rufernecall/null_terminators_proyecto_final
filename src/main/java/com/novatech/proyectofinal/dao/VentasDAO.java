@@ -133,4 +133,70 @@ public class VentasDAO {
         }
         return 0.0;
     }
+
+    public Venta buscarPorId(Long id) {
+        String sql = "SELECT o.*, c.nombre as cliente_nombre, e.nombre as vendedor_nombre " +
+                "FROM ventas o " +
+                "JOIN clientes c ON o.cliente_id = c.id " +
+                "LEFT JOIN empleados e ON o.vendedor_id = e.id " +
+                "WHERE o.id = ?";
+        Connection con = DatabaseConnection.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Venta o = new Venta();
+                    o.setId(rs.getLong("id"));
+                    o.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
+                    o.setTotal(rs.getDouble("total"));
+                    o.setEstado(rs.getString("estado"));
+
+                    Cliente cli = new Cliente();
+                    cli.setNombre(rs.getString("cliente_nombre"));
+                    o.setCliente(cli);
+
+                    if (rs.getString("vendedor_nombre") != null) {
+                        Empleado emp = new Empleado();
+                        emp.setNombre(rs.getString("vendedor_nombre"));
+                        o.setVendedor(emp);
+                    }
+                    return o;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<DetalleVenta> listarDetalles(Long ventaId) {
+        List<DetalleVenta> detalles = new ArrayList<>();
+        String sql = "SELECT d.*, p.nombre as producto_nombre " +
+                "FROM detalles_venta d " +
+                "JOIN productos p ON d.producto_id = p.id " +
+                "WHERE d.venta_id = ?";
+        Connection con = DatabaseConnection.getConnection();
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setLong(1, ventaId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    DetalleVenta d = new DetalleVenta();
+                    d.setId(rs.getLong("id"));
+                    d.setCantidad(rs.getInt("cantidad"));
+                    d.setPrecioUnitario(rs.getDouble("precio_unitario"));
+                    d.setSubtotal(rs.getDouble("subtotal"));
+
+                    com.novatech.proyectofinal.model.Producto p = new com.novatech.proyectofinal.model.Producto();
+                    p.setId(rs.getLong("producto_id"));
+                    p.setNombre(rs.getString("producto_nombre"));
+                    d.setProducto(p);
+
+                    detalles.add(d);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return detalles;
+    }
 }

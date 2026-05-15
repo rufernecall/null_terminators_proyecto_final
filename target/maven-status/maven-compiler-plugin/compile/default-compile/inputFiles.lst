@@ -12,6 +12,7 @@
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/dao/EmpleadoDAO.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/dao/FinanzasDAO.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/dao/LocalCacheManager.java
+/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/dao/MovimientoDAO.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/dao/ProductoCacheDAO.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/dao/ProductoDAO.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/dao/ProveedorDAO.java
@@ -44,6 +45,7 @@
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/view/InventarioPanel.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/view/LoginFrame.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/view/MainFrame.java
+/home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/view/MovimientosPanel.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/view/ProductoCard.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/view/ProductoForm.java
 /home/rufernecall/NetBeansProjects/ProyectoFinal/src/main/java/com/novatech/proyectofinal/view/ProveedorForm.java

@@ -65,4 +65,20 @@ public class FinanzasController {
         }
         return null;
     }
+
+    public void imprimirComprobante(Comprobante c) {
+        if (c.getVentaId() != null) {
+            com.novatech.proyectofinal.dao.VentasDAO vDAO = new com.novatech.proyectofinal.dao.VentasDAO();
+            Venta v = vDAO.buscarPorId(c.getVentaId());
+            if (v != null) {
+                // Seteamos el tipoDoc en metadata para que ReporteUtil lo use
+                v.getMetadata().put("tipoDoc", c.getTipo());
+                List<com.novatech.proyectofinal.model.DetalleVenta> detalles = vDAO.listarDetalles(v.getId());
+                com.novatech.proyectofinal.util.ReporteUtil.generarBoletaPDF(v, detalles);
+            }
+        } else {
+            // Podriamos implementar para compras en el futuro
+            System.out.println("Impresion no disponible para adquisiciones aun.");
+        }
+    }
 }

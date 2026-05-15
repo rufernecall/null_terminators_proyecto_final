@@ -18,6 +18,8 @@ public class FinanzasPanel extends javax.swing.JPanel implements ViewPanel {
         this.controller = new FinanzasController();
         initComponents();
         modelo = (DefaultTableModel) tablaComprobantes.getModel();
+        
+        btnVerDetalle.addActionListener(e -> btnVerDetalleActionPerformed());
     }
 
     @Override
@@ -41,9 +43,30 @@ public class FinanzasPanel extends javax.swing.JPanel implements ViewPanel {
         }
     }
 
+    private void btnVerDetalleActionPerformed() {
+        int fila = tablaComprobantes.getSelectedRow();
+        if (fila == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selecciona un comprobante de la lista.");
+            return;
+        }
+
+        Long id = (Long) modelo.getValueAt(fila, 0);
+        List<Comprobante> lista = controller.listarComprobantes();
+        Comprobante seleccionado = lista.stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst().orElse(null);
+
+        if (seleccionado != null) {
+            if (seleccionado.getVentaId() == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, "La impresión solo está disponible para Ventas.");
+                return;
+            }
+            controller.imprimirComprobante(seleccionado);
+        }
+    }
+
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         lblTitulo = new javax.swing.JLabel();

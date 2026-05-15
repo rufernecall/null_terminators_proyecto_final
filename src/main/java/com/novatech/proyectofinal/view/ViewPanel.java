@@ -6,8 +6,5 @@ package com.novatech.proyectofinal.view;
  * @author rufernecall
  */
 public interface ViewPanel {
-    /**
-     * Metodo que se ejecuta cuando el panel es seleccionado en el menu principal.
-     */
     void alCargar();
 }
